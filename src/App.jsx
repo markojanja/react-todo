@@ -76,6 +76,7 @@ function App() {
         </div>
       </header>
       <section className='todos-container'>
+        <h2>List of todos: </h2>
         {taskList.map((obj, index) => (
           <div key={index} className='todo-card'>
             <input type='checkbox' onChange={() => handleCompleted(obj)} checked={obj.completed} />
