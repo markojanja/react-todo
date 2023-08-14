@@ -2,6 +2,8 @@ import { useState } from 'react';
 import './App.css';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
+import Button from './components/Button';
+import Form from './components/Form';
 
 function App() {
   const [task, setTask] = useState({ name: '' });
@@ -45,7 +47,7 @@ function App() {
   }
 
   function handleEditTask(obj) {
-    const clonedTask = { ...obj }; // Clone the found task
+    const clonedTask = { ...obj };
     setTask(clonedTask);
     setEditTask(clonedTask);
     setToggle(true);
@@ -63,26 +65,16 @@ function App() {
     <div className='app'>
       <Navbar />
       <header className='header'>
-        <div className='form-container'>
-          <form className='form' action='' onSubmit={handleFormSubmit}>
-            <input type='text' placeholder='add todo' onChange={handleTaskInput} value={task.name} />
-            {!toggle && <button type='submit'>Add todo</button>}
-          </form>
-          {toggle && (
-            <button type='button' onClick={handleSave}>
-              Save
-            </button>
-          )}
-        </div>
+        <Form onSubmit={handleFormSubmit} onChange={handleTaskInput} onClick={handleSave} task={task} toggle={toggle} />
       </header>
       <section className='todos-container'>
-        <h2>List of todos: </h2>
-        {taskList.map((obj, index) => (
-          <div key={index} className='todo-card'>
+        <h2>List of todos</h2>
+        {taskList.map((obj) => (
+          <div key={obj.id} className='todo-card'>
             <input type='checkbox' onChange={() => handleCompleted(obj)} checked={obj.completed} />
             <p style={obj.completed ? { textDecoration: 'line-through' } : null}>{obj.name}</p>
-            <button onClick={() => handleEditTask(obj)}>edit</button>
-            <button onClick={() => handleDeleteTask(obj)}>delete</button>
+            <Button text='Edit' onClick={() => handleEditTask(obj)} />
+            <Button text='Delete' onClick={() => handleDeleteTask(obj)} />
           </div>
         ))}
       </section>
