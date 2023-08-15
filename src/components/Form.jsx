@@ -5,7 +5,7 @@ function Form({ onSubmit, onChange, onClick, task, toggle }) {
   return (
     <div className='form-container'>
       <form className='form' action='' onSubmit={onSubmit}>
-        <input type='text' placeholder='add todo' onChange={onChange} value={name} />
+        <input type='text' placeholder='Enter todo' onChange={onChange} value={name} />
         {!toggle ? <Button className='add' text='Add todo' /> : <Button className='save' text='Save' onClick={onClick} />}
       </form>
     </div>

@@ -28,7 +28,8 @@
   align-items: center;
   gap: 10px;
   justify-content: center;
-  width: 30%;
+  min-width: 30%;
+  max-width: 100%;
   min-height: 200px;
   padding: 40px;
   background: linear-gradient(45deg, #08af56, #780bf4);
@@ -51,7 +52,8 @@
 .todos-container {
   display: flex;
   flex-direction: column;
-  width: 80%;
+  min-width: 80%;
+  max-width: 100%;
   margin: 0 auto;
   align-items: center;
   gap: 10px;
@@ -62,7 +64,8 @@
 }
 .todo-card {
   display: flex;
-  width: 40%;
+  min-width: 40%;
+  max-width: 100%;
   align-items: center;
   justify-content: space-between;
   padding: 10px;
@@ -89,4 +92,15 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
+}
+.footer-link {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.footer-link h2,
+.footer-link i {
+  font-size: 1.5rem;
+  color: #fff;
 }

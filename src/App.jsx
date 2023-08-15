@@ -1,21 +1,33 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import { v4 as uuidv4 } from 'uuid';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
-import Button from './components/Button';
-import Form from './components/Form';
+import Card from './components/Card';
+import Header from './components/Header';
+import Section from './components/Section';
 
 function App() {
   const [task, setTask] = useState({ name: '' });
-  const [taskList, setTaskList] = useState([]);
+  const [taskList, setTaskList] = useState(JSON.parse(localStorage.getItem('tasks')) || []);
   const [toggle, setToggle] = useState(false);
   const [editTask, setEditTask] = useState(null);
+
+  useEffect(() => {
+    const savedTasks = localStorage.getItem('tasks');
+    if (savedTasks) {
+      setTaskList(JSON.parse(savedTasks));
+    }
+  }, []);
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(taskList));
+  }, [taskList]);
 
   //handling form submit
   function handleTaskInput(e) {
     setTask({ ...task, id: uuidv4(), name: e.target.value, completed: false });
   }
+
   function handleFormSubmit(e) {
     e.preventDefault();
     if (task.name !== '') {
@@ -59,27 +71,20 @@ function App() {
     }
   }
   function handleDeleteTask(targetTask) {
-    const updatedTaskList = taskList.filter((task) => task.name !== targetTask.name);
+    const updatedTaskList = taskList.filter((task) => task.id !== targetTask.id);
     setTaskList(updatedTaskList);
   }
 
   return (
     <div className='app'>
       <Navbar />
-      <header className='header'>
-        <Form onSubmit={handleFormSubmit} onChange={handleTaskInput} onClick={handleSave} task={task} toggle={toggle} />
-      </header>
-      <section className='todos-container'>
+      <Header onFormSubmit={handleFormSubmit} onFormChange={handleTaskInput} onSave={handleSave} task={task} toggle={toggle} />
+      <Section>
         <h2>List of todos</h2>
         {taskList.map((obj) => (
-          <div key={obj.id} className='todo-card'>
-            <input type='checkbox' onChange={() => handleCompleted(obj)} checked={obj.completed} />
-            <p style={obj.completed ? { textDecoration: 'line-through' } : null}>{obj.name}</p>
-            <Button className='edit' text='Edit' onClick={() => handleEditTask(obj)} />
-            <Button className='delete' text='Delete' onClick={() => handleDeleteTask(obj)} />
-          </div>
+          <Card key={obj.id} task={obj} onChange={() => handleCompleted(obj)} onEdit={() => handleEditTask(obj)} onDelete={() => handleDeleteTask(obj)} />
         ))}
-      </section>
+      </Section>
       <Footer />
     </div>
   );
