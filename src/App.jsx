@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './App.css';
+import { v4 as uuidv4 } from 'uuid';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import Button from './components/Button';
@@ -11,6 +12,10 @@ function App() {
   const [toggle, setToggle] = useState(false);
   const [editTask, setEditTask] = useState(null);
 
+  //handling form submit
+  function handleTaskInput(e) {
+    setTask({ ...task, id: uuidv4(), name: e.target.value, completed: false });
+  }
   function handleFormSubmit(e) {
     e.preventDefault();
     if (task.name !== '') {
@@ -19,6 +24,8 @@ function App() {
       setToggle(false);
     }
   }
+
+  // save and edit tasks
   function handleCompleted(obj) {
     const editedList = taskList.map((task) => {
       if (task.id === obj.id) {
@@ -29,6 +36,12 @@ function App() {
     setTaskList(editedList);
   }
 
+  function handleEditTask(obj) {
+    const clonedTask = { ...obj };
+    setTask(clonedTask);
+    setEditTask(clonedTask);
+    setToggle(true);
+  }
   function handleSave() {
     if (task.name !== '') {
       const updatedTaskList = taskList.map((existingTask) => {
@@ -44,17 +57,6 @@ function App() {
       setTask({ name: '' });
       setToggle(false);
     }
-  }
-
-  function handleEditTask(obj) {
-    const clonedTask = { ...obj };
-    setTask(clonedTask);
-    setEditTask(clonedTask);
-    setToggle(true);
-  }
-
-  function handleTaskInput(e) {
-    setTask({ ...task, id: Math.random() * 1000 + 1, name: e.target.value, completed: false });
   }
   function handleDeleteTask(targetTask) {
     const updatedTaskList = taskList.filter((task) => task.name !== targetTask.name);
@@ -73,8 +75,8 @@ function App() {
           <div key={obj.id} className='todo-card'>
             <input type='checkbox' onChange={() => handleCompleted(obj)} checked={obj.completed} />
             <p style={obj.completed ? { textDecoration: 'line-through' } : null}>{obj.name}</p>
-            <Button text='Edit' onClick={() => handleEditTask(obj)} />
-            <Button text='Delete' onClick={() => handleDeleteTask(obj)} />
+            <Button className='edit' text='Edit' onClick={() => handleEditTask(obj)} />
+            <Button className='delete' text='Delete' onClick={() => handleDeleteTask(obj)} />
           </div>
         ))}
       </section>

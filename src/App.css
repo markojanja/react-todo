@@ -31,7 +31,7 @@
   width: 30%;
   min-height: 200px;
   padding: 40px;
-  border: 1px solid lightcoral;
+  background: linear-gradient(45deg, #08af56, #780bf4);
 }
 .form {
   display: flex;
@@ -66,7 +66,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px;
-  background-color: #414040;
+  background: linear-gradient(45deg, #08af56, #780bf4);
   gap: 5px;
 }
 .todo-card p {
@@ -74,6 +74,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.edit {
+  color: limegreen;
+}
+.delete {
+  color: red;
 }
 
 .footer {
