@@ -6,6 +6,7 @@ import Navbar from './components/Navbar';
 import Card from './components/Card';
 import Header from './components/Header';
 import Section from './components/Section';
+import Form from './components/Form';
 
 function App() {
   const [task, setTask] = useState({ name: '' });
@@ -75,14 +76,24 @@ function App() {
     setTaskList(updatedTaskList);
   }
 
+  const total = taskList.length;
+  const completed = taskList.filter((t) => {
+    return t.completed;
+  });
+
   return (
     <div className='app'>
       <Navbar />
-      <Header onFormSubmit={handleFormSubmit} onFormChange={handleTaskInput} onSave={handleSave} task={task} toggle={toggle} />
+      <Header>
+        <Form onSubmit={handleFormSubmit} onChange={handleTaskInput} onClick={handleSave} task={task} toggle={toggle} />
+      </Header>
       <Section>
-        <h2>List of todos</h2>
+        <h2>Todo list</h2>
+        <p>
+          tasks completed: {completed.length}/{total}
+        </p>
         {taskList.map((obj) => (
-          <Card key={obj.id} task={obj} onChange={() => handleCompleted(obj)} onEdit={() => handleEditTask(obj)} onDelete={() => handleDeleteTask(obj)} />
+          <Card key={obj.id} task={obj} onChange={handleCompleted} onEdit={handleEditTask} onDelete={handleDeleteTask} />
         ))}
       </Section>
       <Footer />

@@ -1,11 +1,5 @@
-import Form from './Form';
-
-function Header({ onFormSubmit, onFormChange, onSave, task, toggle }) {
-  return (
-    <header className='header'>
-      <Form onSubmit={onFormSubmit} onChange={onFormChange} onClick={onSave} task={task} toggle={toggle} />
-    </header>
-  );
+function Header({ children }) {
+  return <header className='header'>{children}</header>;
 }
 
 export default Header;
