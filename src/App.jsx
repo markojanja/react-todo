@@ -3,7 +3,6 @@ import './App.css';
 import { v4 as uuidv4 } from 'uuid';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
-import Card from './components/Card';
 import Header from './components/Header';
 import Section from './components/Section';
 import Form from './components/Form';
@@ -20,6 +19,7 @@ function App() {
       setTaskList(JSON.parse(savedTasks));
     }
   }, []);
+
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(taskList));
   }, [taskList]);
@@ -76,26 +76,11 @@ function App() {
     setTaskList(updatedTaskList);
   }
 
-  const total = taskList.length;
-  const completed = taskList.filter((t) => {
-    return t.completed;
-  });
-
   return (
     <div className='app'>
       <Navbar />
-      <Header>
-        <Form onSubmit={handleFormSubmit} onChange={handleTaskInput} onClick={handleSave} task={task} toggle={toggle} />
-      </Header>
-      <Section>
-        <h2>Todo list</h2>
-        <p>
-          tasks completed: {completed.length}/{total}
-        </p>
-        {taskList.map((obj) => (
-          <Card key={obj.id} task={obj} onChange={handleCompleted} onEdit={handleEditTask} onDelete={handleDeleteTask} />
-        ))}
-      </Section>
+      <Header task={task} toggle={toggle} handleFormSubmit={handleFormSubmit} handleTaskInput={handleTaskInput} handleSave={handleSave} />
+      <Section taskList={taskList} handleCompleted={handleCompleted} handleEditTask={handleEditTask} handleDeleteTask={handleDeleteTask} />
       <Footer />
     </div>
   );
