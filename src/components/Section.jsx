@@ -1,4 +1,4 @@
-import Card from './Card';
+import TaskList from './TaskList';
 
 function Section({ taskList, handleCompleted, handleEditTask, handleDeleteTask }) {
   const total = taskList.length;
@@ -11,16 +11,13 @@ function Section({ taskList, handleCompleted, handleEditTask, handleDeleteTask }
     <section className='todos-container'>
       <h2>Todo list</h2>
       {total === 0 ? (
-        <p>There are {total} tasks currently</p>
+        <p>You don't have any tasks yet!!!</p>
       ) : (
         <p>
           tasks completed: {completed.length}/{total}
         </p>
       )}
-
-      {taskList.map((obj) => (
-        <Card key={obj.id} task={obj} onChange={handleCompleted} onEdit={handleEditTask} onDelete={handleDeleteTask} />
-      ))}
+      <TaskList taskList={taskList} handleCompleted={handleCompleted} handleEditTask={handleEditTask} handleDeleteTask={handleDeleteTask} />
     </section>
   );
 }
